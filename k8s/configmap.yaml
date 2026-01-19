@@ -1,0 +1,22 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spacepedia-config
+data:
+  PROJECT_NAME: "SpacePedia AI (K8s)"
+  ENVIRONMENT: "production"
+  # --- Provider Selection ---
+  # Set to "groq"
+  LLM_PROVIDER: "groq"
+
+  # --- Groq Configuration ---
+  # Key is loaded via Secret (spacepedia-secrets)
+  GROQ_MODEL: "llama-3.3-70b-versatile"
+
+  # --- Gemini Configuration ---
+  # Key is loaded via Secret (spacepedia-secrets)
+  GEMINI_EMBEDDING_MODEL: "text-embedding-004"
+  
+  # --- Data Persistence ---
+  CHROMA_DB_PATH: "/app/chroma_db"

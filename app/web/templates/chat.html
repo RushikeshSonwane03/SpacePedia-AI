@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Home Button (Top Left) -->
+<div id="btn-home" class="home-btn" data-tooltip="Back to Home">
+    <span>🏠</span>
+</div>
+
+<!-- Left Edge: About -->
+<div class="edge-btn left" id="btn-about" data-tooltip="SpacePedia Knowledge Base">
+    <span>ℹ️</span>
+</div>
+
+<!-- Right Edge: History -->
+<div class="edge-btn right" id="btn-chats" data-tooltip="Conversation History">
+    <span>💬</span>
+</div>
+
+<div id="view-container">
+    <!-- Hero View (Default) -->
+    <div id="hero-view" class="view-section active-view">
+        <div id="earth-container" data-texture-url="{{ url_for('static', filename='img/earth_texture.jpg') }}"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">SpacePedia AI</h1>
+            <p class="hero-subtitle">Your intelligent companion for exploring the cosmos.</p>
+            <button class="btn-start" id="btn-start-journey">Start Journey</button>
+        </div>
+    </div>
+
+    <!-- Chat View (Hidden initially) -->
+    <div id="chat-view" class="view-section">
+        <div class="chat-card">
+            <header>
+                <div class="header-left">
+                    <h1>SpacePedia AI</h1>
+                    <div class="title-separator">|</div>
+                    <div class="chat-title-wrapper">
+                        <span id="current-chat-title">New Chat</span>
+                        <div id="edit-title-btn" class="edit-icon" title="Rename Chat">✏️</div>
+                    </div>
+                    <div class="title-input-wrapper" style="display: none;">
+                        <input type="text" id="title-input" placeholder="Chat Title..." maxlength="30">
+                        <div id="save-title-btn" class="edit-icon" title="Save Title" style="opacity: 1;">💾</div>
+                        <span id="title-error" class="title-error"></span>
+                    </div>
+                </div>
+                <div style="opacity: 0.7; font-size: 0.9rem;">
+                    Online • v1.0 (PyScript)
+                </div>
+            </header>
+
+            <div id="chat-history" class="chat-history">
+                <!-- Messages will appear here -->
+                <div class="message assistant">
+                    Hello traveler! I'm SpacePedia AI. Ask me anything about space exploration, Mars, or rockets.
+                </div>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Type your question here (e.g. 'What is Starship?')..."
+                    autocomplete="off">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About View -->
+    <div id="about-view" class="view-section">
+        <div class="glass-panel about-content"
+            style="display:flex; flex-direction:column; height:80vh; padding:0; overflow:hidden;">
+            <!-- Header (Fixed) -->
+            <div style="padding: 20px 30px; border-bottom:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <h2 style="margin:0 0 10px 0;">Knowledge Base</h2>
+                <input type="text" id="knowledge-search" placeholder="Search topics or categories..."
+                    style="width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:white;">
+            </div>
+
+            <!-- Scrollable Content -->
+            <div id="knowledge-list" class="knowledge-grid-container"
+                style="flex:1; overflow-y:auto; padding:20px 30px;">
+                Loading knowledge sources...
+            </div>
+
+            <!-- Footer (Fixed) -->
+            <div
+                style="padding: 15px 30px; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2); text-align:center;">
+                <button class="menu-btn" style="width:auto; padding:10px 30px;" id="back-to-chat-about">Back to
+                    Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History View -->
+    <div id="history-view" class="view-section">
+        <div class="glass-panel history-list">
+            <h2>Conversation History</h2>
+            <button class="menu-btn"
+                style="position:relative; width:auto; border-radius:10px; padding:10px 20px; margin:0 auto 20px auto; display:block;"
+                id="btn-new-chat">Start New Chat</button>
+            <div id="history-items">
+                Loading history...
+            </div>
+            <button class="menu-btn"
+                style="position:relative; width:auto; border-radius:10px; padding:10px 20px; margin-top:20px;"
+                id="back-to-chat-history">Back to Chat</button>
+        </div>
+    </div>
+</div>
+
+<!-- PyScript Logic -->
+<script type="py" src="{{ url_for('static', filename='py/chat.py') }}" config='{"packages": []}'></script>
+<!-- Earth Logic -->
+<script src="{{ url_for('static', filename='js/earth.js') }}"></script>
+{% endblock %}

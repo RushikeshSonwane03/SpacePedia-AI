@@ -1,0 +1,51 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spacepedia-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spacepedia-backend
+  template:
+    metadata:
+      labels:
+        app: spacepedia-backend
+    spec:
+      containers:
+      - name: backend
+        image: spacepedia:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: spacepedia-config
+        - secretRef:
+            name: spacepedia-secrets
+        volumeMounts:
+        - name: knowledge-base
+          mountPath: /app/chroma_db
+      volumes:
+      - name: knowledge-base
+        emptyDir: {} 
+        # Note: In production, switch to persistentVolumeClaim to permit updates/persistence. 
+        # For now, 'emptyDir' means it starts fresh or we rely on the COPY in Dockerfile 
+        # (Actually, COPY works better without mounting over it if read-only. 
+        # If we mount emptyDir over /app/chroma_db, we lose the baked data!
+        # SOLUTION: Remove volume mount if relying on baked image data.)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spacepedia-backend
+spec:
+  selector:
+    app: spacepedia-backend
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP

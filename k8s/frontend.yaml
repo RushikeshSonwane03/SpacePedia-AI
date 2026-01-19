@@ -1,0 +1,44 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spacepedia-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spacepedia-frontend
+  template:
+    metadata:
+      labels:
+        app: spacepedia-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: spacepedia:latest
+        imagePullPolicy: IfNotPresent
+        # Use Gunicorn for production Flask
+        command: ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app.web.app:app"]
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: spacepedia-config
+        env:
+        # Frontend needs to know where Backend is
+        - name: API_URL
+          value: "http://spacepedia-backend:8000/api/v1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spacepedia-frontend
+spec:
+  selector:
+    app: spacepedia-frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer 
+  # Use LoadBalancer for cloud, NodePort for local/minikube

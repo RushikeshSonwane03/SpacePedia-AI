@@ -1,0 +1,347 @@
+/* Dual Edge Navigation Buttons */
+.edge-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70px;
+    /* Increased from 50px */
+    height: 140px;
+    /* Increased from 100px */
+    background: rgba(13, 110, 253, 0.15);
+    /* Subtle Glass Blue */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(13, 110, 253, 0.3);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 2rem;
+    /* Increased from 1.5rem */
+    z-index: 1000;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.edge-btn:hover {
+    width: 90px;
+    /* Increased from 70px */
+    /* Expand width */
+    background: rgba(13, 110, 253, 0.3);
+    box-shadow: 0 0 25px rgba(13, 110, 253, 0.5);
+    color: #fff;
+}
+
+/* Left Button (About) */
+.edge-btn.left {
+    left: 0;
+    border-left: none;
+    border-radius: 0 140px 140px 0;
+    /* Updated for new height */
+    /* Semi-circle pointing Right */
+}
+
+.edge-btn.left:hover {
+    transform: translateY(-50%) translateX(5px);
+}
+
+/* Right Button (Chats) */
+.edge-btn.right {
+    right: 0;
+    border-right: none;
+    border-radius: 140px 0 0 140px;
+    /* Updated for new height */
+    /* Semi-circle pointing Left */
+}
+
+.edge-btn.right:hover {
+    transform: translateY(-50%) translateX(-5px);
+}
+
+/* Tooltips */
+/* Tooltips */
+.edge-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.edge-btn.left::after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.edge-btn.right::after {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.edge-btn:hover::after {
+    opacity: 1;
+}
+
+/* View Containers (Retained & Polished) */
+#view-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.view-section {
+    display: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    animation: fadeScale 0.4s ease forwards;
+}
+
+.view-section.active-view {
+    display: flex;
+}
+
+@keyframes fadeScale {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* About View Styling */
+/* About View Styling */
+.about-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px;
+    text-align: center;
+    background: rgba(10, 15, 30, 0.4);
+    /* More transparent */
+    backdrop-filter: blur(30px);
+    /* Stronger blur */
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    /* Soft shadow */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle Gradient Border Glow via pseudo-element */
+.about-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.about-content h2 {
+    font-size: 3rem;
+    /* Larger */
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #fff, #aaddff);
+    /* Match Hero */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.about-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+
+.knowledge-list {
+    text-align: left;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 20px;
+    max-height: 50vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* History View Styling */
+.history-list {
+    max-width: 600px;
+    /* Slightly wider */
+    margin: 0 auto;
+    width: 100%;
+    padding: 40px;
+    background: rgba(10, 15, 30, 0.5);
+    backdrop-filter: blur(30px);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/* History Header Text */
+.history-list h2 {
+    font-size: 2rem;
+    background: linear-gradient(to right, #fff, #aaddff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Scrollable Container */
+#history-items {
+    flex: 1;
+    overflow-y: auto;
+    margin: 20px 0;
+    padding-right: 15px;
+}
+
+/* History Items as Boxes */
+.history-item {
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    padding: 18px 25px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(13, 110, 253, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.history-item span {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.history-item small {
+    color: #ccddee;
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+/* Refined Buttons (Back/New Chat) */
+.menu-btn,
+.action-btn {
+    padding: 12px 30px !important;
+    font-size: 1rem !important;
+    font-weight: 600;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px !important;
+    /* Pill shape */
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    /* Ensure width is respectable */
+}
+
+.menu-btn:hover,
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+    border-color: rgba(13, 110, 253, 0.4);
+}
+
+/* Hide default scrollbar track for cleaner look */
+#history-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Home Button */
+.home-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(13, 110, 253, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(13, 110, 253, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    z-index: 1001;
+    /* Above edge buttons */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.home-btn:hover {
+    transform: scale(1.1) rotate(0deg);
+    background: rgba(13, 110, 253, 0.3);
+    box-shadow: 0 0 25px rgba(13, 110, 253, 0.5);
+    color: #fff;
+    border-color: rgba(13, 110, 253, 0.6);
+}
+
+/* Home Tooltip */
+.home-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 110%;
+    /* Right of button */
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.home-btn:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}

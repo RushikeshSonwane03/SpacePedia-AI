@@ -1,0 +1,53 @@
+# Backend & API
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+flask>=3.0.0
+gunicorn>=21.2.0  # For production deployment of Flask
+python-multipart>=0.0.9
+slowapi>=0.1.9
+
+# Config & Validation
+pydantic>=2.6.0
+pydantic-settings>=2.1.0
+python-dotenv>=1.0.0
+
+# Database
+sqlalchemy[asyncio]>=2.0.25
+asyncpg>=0.29.0
+psycopg2-binary>=2.9.9
+alembic>=1.13.1
+
+# RAG & AI (Cloud-only)
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-core>=0.1.10
+langgraph>=0.0.10
+chromadb>=0.4.22
+numpy>=1.26.0
+langchain-google-genai>=0.0.9
+langchain-groq>=0.1.0
+groq>=0.4.0
+google-generativeai>=0.4.0
+
+# Ingestion
+playwright>=1.41.0
+unstructured[all-docs]>=0.12.0
+pdfplumber>=0.10.3
+pymupdf>=1.23.8
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+httpx>=0.26.0
+
+# Logging & Utilities
+python-json-logger>=2.0.7
+colorlog>=6.8.0
+tenacity>=8.2.3
+
+# Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+
+# Evaluation
+ragas>=0.0.22
+datasets>=2.16.0
+pandas>=2.1.0
