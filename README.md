@@ -5,9 +5,16 @@
 ### Your Intelligent Companion for Exploring the Cosmos
 
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)](https://fastapi.tiangolo.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688.svg?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Flask](https://img.shields.io/badge/Flask-3.0+-000000.svg?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+
+[![LangChain](https://img.shields.io/badge/LangChain-0.1+-blue.svg?style=flat&logo=langchain&logoColor=white)](https://python.langchain.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-RAG-purple.svg)](https://github.com/langchain-ai/langgraph)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![LLM](https://img.shields.io/badge/LLM-Groq%20Llama3-orange.svg)](https://groq.com/)
+[![Embeddings](https://img.shields.io/badge/Embeddings-Google%20Gemini-blue.svg)](https://ai.google.dev/)
+
+[![Evaluation](https://img.shields.io/badge/Evaluation-Ragas%20%2B%20Gemini-ff69b4.svg)](https://docs.ragas.io/)
 [![Tests](https://img.shields.io/badge/Tests-10%2F10%20Passing-brightgreen.svg)](#testing)
 
 <img src="images/landing_page.png" alt="SpacePedia Landing Page" width="800"/>
