@@ -51,6 +51,15 @@ app.include_router(meta.router, prefix=f"{settings.API_V1_STR}/meta", tags=["Met
 @app.on_event("startup")
 async def startup_event():
     logger.info("Starting SpacePedia AI API...")
+    # Initialize Database Tables
+    try:
+        from app.db.session import engine
+        from app.db.models import Base
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database tables created (if not existed).")
+    except Exception as e:
+        logger.error(f"Database initialization failed: {e}")
 
 @app.get("/health")
 def health_check():
