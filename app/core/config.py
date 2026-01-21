@@ -17,13 +17,18 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "password"
     POSTGRES_DB: str = "spacepedia"
     POSTGRES_PORT: int = 5432
-    
+    DATABASE_URL: Optional[str] = None
+
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
-        if not self.POSTGRES_SERVER or self.POSTGRES_SERVER == "sqlite":
-             return "sqlite+aiosqlite:///./spacepedia.db"
-        
+        if self.DATABASE_URL:
+            # Fix for Supabase/Render which provide postgres:// but SQLAlchemy asyncpg needs postgresql+asyncpg://
+            url = self.DATABASE_URL.replace("postgres://", "postgresql+asyncpg://")
+            if "postgresql://" in url and "postgresql+asyncpg://" not in url:
+                 url = url.replace("postgresql://", "postgresql+asyncpg://")
+            return url
+            
         return str(PostgresDsn.build(
             scheme="postgresql+asyncpg",
             username=self.POSTGRES_USER,
