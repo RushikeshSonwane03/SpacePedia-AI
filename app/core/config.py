@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if not self.POSTGRES_SERVER or self.POSTGRES_SERVER == "sqlite":
+             return "sqlite+aiosqlite:///./spacepedia.db"
+        
         return str(PostgresDsn.build(
             scheme="postgresql+asyncpg",
             username=self.POSTGRES_USER,
