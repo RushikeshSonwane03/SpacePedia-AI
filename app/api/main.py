@@ -66,11 +66,25 @@ def health_check():
     return {"status": "ok", "version": "0.1.0"}
 
 @app.get("/status")
-def status_check():
+async def status_check():
+    db_status = "unknown"
+    error_msg = None
+    try:
+        from app.db.session import engine
+        from sqlalchemy import text
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+        db_status = "connected"
+    except Exception as e:
+        db_status = "failed"
+        error_msg = str(e)
+        logger.error(f"DB Check Failed: {e}")
+
     return {
         "app": settings.PROJECT_NAME,
         "environment": settings.ENVIRONMENT,
-        "database": "connected" # Placeholder until DB is hooked up
+        "database": db_status,
+        "error": error_msg
     }
 
 if __name__ == "__main__":
