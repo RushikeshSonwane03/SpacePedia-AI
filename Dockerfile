@@ -26,6 +26,10 @@ COPY start.sh .
 
 # Create non-root user for security (Required by HF Spaces to be consistently 1000)
 RUN useradd -m -u 1000 user
+
+# Fix permissions: Give user ownership of the application directory
+RUN chown -R user:user /app
+
 USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
