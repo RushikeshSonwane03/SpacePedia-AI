@@ -19,4 +19,5 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         # NOTE: This assumes your HF username is "RushikeshSonwane03" and Space name is "SpacePedia-AI"
         # If your Space has a different name, please modify the URL below.
-        run: git push https://RushikeshSonwane03:$HF_TOKEN@huggingface.co/spaces/RushikeshSonwane03/SpacePedia-AI main
+        run: git push https://RushikeshSonwane03:$HF_TOKEN@huggingface.co/spaces/therushisonwane03/SpacePedia-AI main
+
