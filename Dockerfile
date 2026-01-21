@@ -17,18 +17,21 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy Application Code
 COPY app ./app
-COPY .env .
 
 # Copy Knowledge Base (Critical for "Out of Box" experience)
 COPY chroma_db ./chroma_db
 
-# Create non-root user for security
-RUN useradd -m spacepedia && chown -R spacepedia:spacepedia /app
-USER spacepedia
+# Copy startup script
+COPY start.sh .
 
-# Expose Ports (5000: Frontend, 8000: Backend)
-EXPOSE 5000 8000
+# Create non-root user for security (Required by HF Spaces to be consistently 1000)
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
 
-# Default Command (Use --target or override CMD in K8s)
-# By default, we launch the help message or backend
-CMD ["uvicorn", "app.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose Ports (7860 for HF Spaces)
+EXPOSE 7860
+
+# Default Command
+CMD ["bash", "start.sh"]
