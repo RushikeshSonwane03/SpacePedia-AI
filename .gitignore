@@ -4,8 +4,9 @@ Thumbs.db
 *.swp
 
 # Vector DB / Chroma
-chroma_db/
-*.sqlite3
+# Vector DB / Chroma
+# chroma_db/
+# *.sqlite3
 
 # Python
 __pycache__/
