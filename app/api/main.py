@@ -55,11 +55,29 @@ async def startup_event():
     try:
         from app.db.session import engine
         from app.db.models import Base
+        
+        # Dry-run connection check
+        from sqlalchemy import text
+        logger.info("Verifying database connection...")
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+        logger.info("Database connection verified.")
+
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         logger.info("Database tables created (if not existed).")
+    except ImportError:
+        logger.error("Could not import DB modules. Clean install?")
     except Exception as e:
+        import socket
+        if isinstance(e, socket.gaierror) or "Name or service not known" in str(e):
+             logger.critical("CRITICAL-FAILURE: Database Hostname Resolution Failed.")
+             logger.critical("Please check your DATABASE_URL. It seems 'localhost' or an invalid host was used.")
+        
         logger.error(f"Database initialization failed: {e}")
+        # We generally do not want to exit mostly, but if DB fails app is useless. 
+        # But for Spaces, we might want to stay up to show health check error.
+        pass
 
 @app.get("/health")
 def health_check():

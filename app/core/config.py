@@ -1,6 +1,15 @@
 from typing import List, Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import PostgresDsn, computed_field
+from pydantic import PostgresDsn, computed_field, model_validator
+try:
+    # Pydantic v2 check
+    from pydantic import model_validator
+    def from_property_model_validator(func):
+        return model_validator(mode='after')(func)
+except ImportError:
+    # Fallback or weird environment
+    def from_property_model_validator(func):
+        return func
 from functools import lru_cache
 
 class Settings(BaseSettings):
@@ -37,6 +46,15 @@ class Settings(BaseSettings):
             port=self.POSTGRES_PORT,
             path=self.POSTGRES_DB,
         ))
+
+    @from_property_model_validator
+    def validate_database_config(self):
+        # Allow build-time or test-time without valid DB, but warn
+        if not self.DATABASE_URL and self.ENVIRONMENT.lower() not in ["development", "test"]:
+            # We don't raise error to avoid crashing build, but we warn loudly
+            import logging
+            logging.warning("WARNING: PRODUCTION ENVIRONMENT DETECTED BUT NO DATABASE_URL SET. DEFAULTING TO LOCALHOST.")
+        return self
 
     # LLM Settings
     LLM_PROVIDER: str = "groq"  # Options: "groq", "gemini"

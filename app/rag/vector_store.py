@@ -9,12 +9,23 @@ import uuid
 
 class VectorStore:
     def __init__(self, collection_name: str = "space_pedia"):
+        import os
+        if not os.path.exists(settings.CHROMA_DB_PATH):
+             logger.warning(f"ChromaDB path {settings.CHROMA_DB_PATH} not found. Creating it (empty).")
+             # We create it so it doesn't crash, but it will be empty unless user uploaded it.
+             os.makedirs(settings.CHROMA_DB_PATH, exist_ok=True)
+             
         self.client = chromadb.PersistentClient(path=settings.CHROMA_DB_PATH)
         self.embedder = get_embedder()  # Factory: Gemini or Ollama based on config
-        self.collection = self.client.get_or_create_collection(
-            name=collection_name,
-            metadata={"hnsw:space": "cosine"} # Cosine similarity
-        )
+        try:
+             self.collection = self.client.get_or_create_collection(
+                name=collection_name,
+                metadata={"hnsw:space": "cosine"} # Cosine similarity
+            )
+        except Exception as e:
+             logger.error(f"Failed to load collection: {e}. Attempting to reset/continue.")
+             # Fallback logic could go here
+             raise e
 
     def add_chunks(self, chunks: List[ContentChunk]):
         if not chunks:

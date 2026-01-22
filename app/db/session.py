@@ -7,6 +7,8 @@ engine = create_async_engine(
     settings.SQLALCHEMY_DATABASE_URI,
     future=True,
     echo=False, # Set to True for SQL query logging
+    pool_pre_ping=True,  # Test connection before usage (critical for cloud)
+    pool_recycle=1800,   # Recycle connections every 30 mins
 )
 
 # Async Session Factory
